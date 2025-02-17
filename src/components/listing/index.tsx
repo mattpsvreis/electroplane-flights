@@ -2,13 +2,14 @@ import useFlight from '@hooks/use-flight';
 import { BasicFlight } from '@interfaces/flight-data';
 import { AirplaneTakeoff, Seat, WifiHigh } from '@phosphor-icons/react';
 import { differenceInHoursAndMinutes, getHoursAndMinutes12, isArrivalNextDay } from '@utils/time-conversion-utils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ListingProps {
   flight: BasicFlight;
+  flightType: 'outbound' | 'inbound';
 }
 
-const Listing = ({ flight }: ListingProps) => {
+const Listing = ({ flight, flightType }: ListingProps) => {
   const [selectedOption, setSelectedOption] = useState<'premium' | 'standard' | null>(null);
 
   const premiumPrice = (flight.price * 0.95).toLocaleString('en-US', {
@@ -21,26 +22,30 @@ const Listing = ({ flight }: ListingProps) => {
     currency: 'USD',
   });
 
-  const { selectedFlights, handleSelectedFlight } = useFlight();
+  const { outboundFlightSelected, inboundFlightSelected, selectedFlights, handleSelectedFlight } = useFlight();
 
-  const isSelectedFlight = selectedFlights.some((selectedFlight) => selectedFlight.id === flight.id);
-  console.log('isSelectedFlight:', isSelectedFlight);
+  const isSelectedFlight =
+    flightType === 'outbound' ? outboundFlightSelected?.id === flight.id : inboundFlightSelected?.id === flight.id;
 
   const handleRadioChange = (value: 'premium' | 'standard') => {
-    console.log('value:', value);
-
     if (selectedOption === value) {
       setSelectedOption(null);
-      handleSelectedFlight('remove', flight, value);
+      handleSelectedFlight('remove', flight, flightType, value);
     } else {
       setSelectedOption(value);
       if (selectedFlights.some((selectedFlight) => selectedFlight.id === flight.id)) {
-        handleSelectedFlight('change', flight, value);
+        handleSelectedFlight('change', flight, flightType, value);
       } else {
-        handleSelectedFlight('add', flight, value);
+        handleSelectedFlight('add', flight, flightType, value);
       }
     }
   };
+
+  useEffect(() => {
+    if (!isSelectedFlight) {
+      setSelectedOption(null);
+    }
+  }, [selectedFlights]);
 
   return (
     <div

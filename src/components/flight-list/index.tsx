@@ -43,7 +43,7 @@ const FlightList = ({ type }: FlightListProps) => {
       <div className='flex flex-col gap-6 mt-2 w-full justify-center items-center'>
         {flightData.length > 0 ? (
           flightData.map((flight, key) => {
-            return <Listing key={key} flight={flight} />;
+            return <Listing key={key} flight={flight} flightType={type} />;
           })
         ) : (
           <Riple size='large' color='#111a' />
