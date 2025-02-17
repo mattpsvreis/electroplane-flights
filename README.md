@@ -2,17 +2,6 @@
 
 Electroplane Flights is a web application that provides information about various flights. The application is built using React and TypeScript.
 
-## Project Structure
-
-- src
-  -- components
-  -- hooks
-  -- interfaces
-  -- mocks
-  -- providers
-  -- services
-  -- utils
-
 ## Getting Started
 
 ### Prerequisites
