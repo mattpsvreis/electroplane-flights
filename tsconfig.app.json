@@ -24,8 +24,10 @@
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["components/*"],
+      "@hooks/*": ["hooks/*"],
       "@interfaces/*": ["interfaces/*"],
       "@mocks/*": ["mocks/*"],
+      "@providers/*": ["providers/*"],
       "@services/*": ["services/*"],
       "@utils/*": ["utils/*"]
     }

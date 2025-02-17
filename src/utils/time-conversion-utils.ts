@@ -16,3 +16,16 @@ export const isArrivalNextDay = (dateStart: string, dateEnd: string) => {
 
   return dateStartObject.getDate() !== dateEndObject.getDate();
 };
+
+export const differenceInHoursAndMinutes = (dateStart: string, dateEnd: string) => {
+  const dateStartObject = new Date(dateStart);
+  const dateEndObject = new Date(dateEnd);
+
+  const differenceInMilliseconds = dateEndObject.getTime() - dateStartObject.getTime();
+  const differenceInMinutes = Math.floor(differenceInMilliseconds / (1000 * 60));
+
+  const hours = Math.floor(differenceInMinutes / 60);
+  const minutes = differenceInMinutes % 60;
+
+  return `${hours} ${hours === 1 ? 'h' : 'hs'} ${minutes} ${minutes === 1 ? 'min' : 'mins'}`;
+};

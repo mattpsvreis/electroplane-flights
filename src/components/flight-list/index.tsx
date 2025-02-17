@@ -26,7 +26,7 @@ const FlightList = ({ type }: FlightListProps) => {
   }, []);
 
   return (
-    <div className='w-full flex flex-col gap-8'>
+    <div className='w-full flex flex-col gap-4'>
       <h2 className='font-bold text-xl'>
         {flightType + ' '}
         Flights <span className='text-xs italic text-black/40'>({flightTypeHelper})</span>
@@ -39,7 +39,7 @@ const FlightList = ({ type }: FlightListProps) => {
         <p className='text-center'>Saver$ Club</p>
         <p className='text-center'>Standard</p>
       </div>
-      <div className='flex flex-col gap-8'>
+      <div className='flex flex-col gap-6 mt-2'>
         {flightData?.map((flight, key) => {
           return <Listing key={key} flight={flight} />;
         })}

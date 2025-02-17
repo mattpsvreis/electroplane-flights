@@ -1,5 +1,7 @@
+import useFlight from '@hooks/use-flight';
 import { BasicFlight } from '@interfaces/flight-data';
-import { getHoursAndMinutes12, isArrivalNextDay } from '@utils/time-conversion-utils';
+import { AirplaneTakeoff, Seat, WifiHigh } from '@phosphor-icons/react';
+import { differenceInHoursAndMinutes, getHoursAndMinutes12, isArrivalNextDay } from '@utils/time-conversion-utils';
 import { useState } from 'react';
 
 interface ListingProps {
@@ -19,17 +21,40 @@ const Listing = ({ flight }: ListingProps) => {
     currency: 'USD',
   });
 
+  const { selectedFlights, handleSelectedFlight } = useFlight();
+
   const handleRadioChange = (value: 'premium' | 'standard') => {
-    setSelectedOption(selectedOption === value ? null : value);
+    console.log('value:', value);
+
+    if (selectedOption === value) {
+      setSelectedOption(null);
+      handleSelectedFlight('remove', flight, value);
+    } else {
+      setSelectedOption(value);
+      if (selectedFlights?.some((selectedFlight) => selectedFlight.id === flight.id)) {
+        handleSelectedFlight('change', flight, value);
+      } else {
+        handleSelectedFlight('add', flight, value);
+      }
+    }
   };
 
   return (
-    <div className='col-span-7 grid grid-cols-7 rounded-md border px-4 min-h-24 place-content-center'>
+    <div className='col-span-7 grid grid-cols-7 rounded-md border px-4 min-h-24 place-content-center shadow-md hover:bg-blue-50 active:bg-blue-200'>
       <div className='place-content-center'>
         <p className='text-sm'>{flight.departure_city}</p>
         <p className='text-lg'>{getHoursAndMinutes12(flight.departure_time)}</p>
       </div>
-      <div className='text-center place-content-center'>flighticongraphy</div>
+      <div className='text-center place-content-center'>
+        <div className='flex flex-row items-center justify-center gap-4 font-semibold'>
+          <p>––––––––</p>
+          <AirplaneTakeoff size={32} weight='thin' />
+          <p>––––––––</p>
+        </div>
+        <p className='text-black/70 text-xs italic'>
+          {differenceInHoursAndMinutes(flight.departure_time, flight.arrival_time)}
+        </p>
+      </div>
       <div className='text-right place-content-center'>
         <p className='text-sm'>{flight.arrival_city}</p>
         <p className='text-lg'>{getHoursAndMinutes12(flight.arrival_time)}</p>
@@ -37,11 +62,16 @@ const Listing = ({ flight }: ListingProps) => {
           <p className='text-sm text-black/70 italic'>Next Day</p>
         ) : null}
       </div>
-      <button type='button' className='text-center cursor-pointer w-fit place-self-center text-blue-500 font-bold'>
+      <button
+        type='button'
+        className='text-center cursor-pointer w-fit place-self-center text-blue-500 font-bold flex flex-row gap-2 justify-center items-center'
+      >
         <p>{flight.stops} Stop</p>
+        <WifiHigh size={24} weight='bold' />
       </button>
-      <button className='text-center cursor-pointer w-fit place-self-center text-blue-500 font-bold'>
+      <button className='text-center cursor-pointer w-fit place-self-center text-blue-500 font-bold flex flex-row justify-center items-center'>
         <p>View Seat Map</p>
+        <Seat size={32} weight='regular' />
       </button>
       <div className='text-center place-content-center bg-yellow-300/80 min-h-24 p-4'>
         <div className='flex flex-row gap-2 justify-start items-center'>
@@ -65,7 +95,9 @@ const Listing = ({ flight }: ListingProps) => {
           <span className='text-xl font-bold'>{premiumPrice}</span>
         </div>
         {flight.seatsLeftPremium < 10 ? (
-          <p className='text-left text-sm'>Only {flight.seatsLeftPremium} seats left at this price</p>
+          <p className='text-left text-sm'>
+            Only <u>{flight.seatsLeftPremium}</u> seats left at this price
+          </p>
         ) : null}
       </div>
       <div className='text-center place-content-center p-4 gap-2'>
@@ -90,7 +122,9 @@ const Listing = ({ flight }: ListingProps) => {
           <span className='text-xl font-bold'>{fullPrice}</span>
         </div>
         {flight.seatsLeft < 10 ? (
-          <p className='text-left text-sm'>Only {flight.seatsLeft} seats left at this price</p>
+          <p className='text-left text-sm'>
+            Only <u>{flight.seatsLeft}</u> seats left at this price
+          </p>
         ) : null}
       </div>
     </div>
