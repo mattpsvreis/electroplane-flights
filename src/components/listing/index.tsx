@@ -39,7 +39,7 @@ const Listing = ({ flight, flightType }: ListingProps) => {
 
   return (
     <div
-      className={`min-w-[650px] col-span-3 grid grid-cols-3 rounded-md border px-4 min-h-24 place-content-center shadow-md ${
+      className={`min-w-[425px] col-span-3 grid grid-cols-3 rounded-md border px-4 min-h-24 place-content-center shadow-md ${
         isSelectedFlight ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-blue-50'
       }`}
     >
