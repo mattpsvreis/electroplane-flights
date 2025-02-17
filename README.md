@@ -18,37 +18,21 @@ git clone https://github.com/mattpsvreis/electroplane-flights.git
 cd electroplane-flights
 ```
 
-2. Install dependencies:
+2. Install dependencies with `pnpm install`
 
-```sh
-pnpm install
-```
-
-tip: You can install pnpm with: `npm i -g pnpm`.
+tip: You can install `pnpm` with: `npm i -g pnpm`.
 
 ### Running the Application
 
-To start the development server, run:
-
-```sh
-pnpm dev
-```
+To start the development server, run `pnpm dev`.
 
 ### Building the Application
 
-To build the application for production, run:
-
-```sh
-pnpm build
-```
+To build the application for production, run `pnpm build`.
 
 ### Running Tests
 
-To run the tests, use:
-
-```sh
-pnpm test
-```
+To run the tests, use `pnpm test`.
 
 ## License
 
