@@ -2,13 +2,14 @@ import Listing from '@components/listing';
 import { BasicFlight } from '@interfaces/flight-data';
 import { getInboundFlightData, getOutboundFlightData } from '@services/flight-data';
 import { useEffect, useState } from 'react';
+import { Riple } from 'react-loading-indicators';
 
 interface FlightListProps {
   type: 'outbound' | 'inbound';
 }
 
 const FlightList = ({ type }: FlightListProps) => {
-  const [flightData, setFlightData] = useState<BasicFlight[]>();
+  const [flightData, setFlightData] = useState<BasicFlight[]>([]);
 
   const flightType = type === 'outbound' ? 'Outbound' : 'Inbound';
   const flightTypeHelper = type === 'outbound' ? 'Departing' : 'Returning';
@@ -39,10 +40,14 @@ const FlightList = ({ type }: FlightListProps) => {
         <p className='text-center'>Saver$ Club</p>
         <p className='text-center'>Standard</p>
       </div>
-      <div className='flex flex-col gap-6 mt-2'>
-        {flightData?.map((flight, key) => {
-          return <Listing key={key} flight={flight} />;
-        })}
+      <div className='flex flex-col gap-6 mt-2 w-full justify-center items-center'>
+        {flightData.length > 0 ? (
+          flightData.map((flight, key) => {
+            return <Listing key={key} flight={flight} />;
+          })
+        ) : (
+          <Riple size='large' color='#111a' />
+        )}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import { BasicFlight } from '@interfaces/flight-data';
 import React, { createContext, ReactNode, useState } from 'react';
 
 interface FlightContextProps {
-  selectedFlights?: BasicFlight[];
+  selectedFlights: BasicFlight[];
   totalCost: number;
   hasSelectedFlight: boolean;
   handleSelectedFlight: (type: 'add' | 'remove' | 'change', flight: BasicFlight, value: 'premium' | 'standard') => void;
@@ -13,6 +13,7 @@ interface FlightProviderProps {
 }
 
 const FlightContext = createContext<FlightContextProps>({
+  selectedFlights: [],
   totalCost: 0,
   hasSelectedFlight: false,
   handleSelectedFlight: () => {},

@@ -23,6 +23,9 @@ const Listing = ({ flight }: ListingProps) => {
 
   const { selectedFlights, handleSelectedFlight } = useFlight();
 
+  const isSelectedFlight = selectedFlights.some((selectedFlight) => selectedFlight.id === flight.id);
+  console.log('isSelectedFlight:', isSelectedFlight);
+
   const handleRadioChange = (value: 'premium' | 'standard') => {
     console.log('value:', value);
 
@@ -31,7 +34,7 @@ const Listing = ({ flight }: ListingProps) => {
       handleSelectedFlight('remove', flight, value);
     } else {
       setSelectedOption(value);
-      if (selectedFlights?.some((selectedFlight) => selectedFlight.id === flight.id)) {
+      if (selectedFlights.some((selectedFlight) => selectedFlight.id === flight.id)) {
         handleSelectedFlight('change', flight, value);
       } else {
         handleSelectedFlight('add', flight, value);
@@ -40,7 +43,11 @@ const Listing = ({ flight }: ListingProps) => {
   };
 
   return (
-    <div className='col-span-7 grid grid-cols-7 rounded-md border px-4 min-h-24 place-content-center shadow-md hover:bg-blue-50 active:bg-blue-200'>
+    <div
+      className={`w-full col-span-7 grid grid-cols-7 rounded-md border px-4 min-h-24 place-content-center shadow-md ${
+        isSelectedFlight ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-blue-50'
+      }`}
+    >
       <div className='place-content-center'>
         <p className='text-sm'>{flight.departure_city}</p>
         <p className='text-lg'>{getHoursAndMinutes12(flight.departure_time)}</p>
@@ -86,7 +93,7 @@ const Listing = ({ flight }: ListingProps) => {
           />
           <label
             htmlFor={'radio1' + flight.id}
-            className='flex justify-center items-center size-4 bg-white rounded-full border border-black/75 hover:border-black/90 active:border-black/50'
+            className='flex justify-center items-center size-4 bg-white rounded-full border border-black/75 hover:border-black/90 active:border-black/50 cursor-pointer'
           >
             {selectedOption === 'premium' ? (
               <div className='bg-black/75 hover:bg-black/90 active:bg-black/50 size-2 rounded-full' />
@@ -113,7 +120,7 @@ const Listing = ({ flight }: ListingProps) => {
           />
           <label
             htmlFor={'radio2' + flight.id}
-            className='flex justify-center items-center size-4 bg-white rounded-full border border-black/75 hover:border-black/90 active:border-black/50'
+            className='flex justify-center items-center size-4 bg-white rounded-full border border-black/75 hover:border-black/90 active:border-black/50 cursor-pointer'
           >
             {selectedOption === 'standard' ? (
               <div className='bg-black/75 hover:bg-black/90 active:bg-black/50 size-2 rounded-full' />
