@@ -26,7 +26,8 @@
       "@components/*": ["components/*"],
       "@interfaces/*": ["interfaces/*"],
       "@mocks/*": ["mocks/*"],
-      "@services/*": ["services/*"]
+      "@services/*": ["services/*"],
+      "@utils/*": ["utils/*"]
     }
   },
   "include": ["src"]

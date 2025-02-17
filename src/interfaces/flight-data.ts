@@ -9,5 +9,8 @@ export interface BasicFlight {
   arrival_city: string;
   departure_time: string;
   arrival_time: string;
+  stops: number;
+  seatsLeftPremium: number;
+  seatsLeft: number;
   price: number;
 }
