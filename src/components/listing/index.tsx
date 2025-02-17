@@ -24,14 +24,10 @@ const Listing = ({ flight, flightType }: ListingProps) => {
   const handleRadioChange = (value: 'premium' | 'standard') => {
     if (selectedOption === value) {
       setSelectedOption(null);
-      handleSelectedFlight('remove', flight, flightType, value);
+      handleSelectedFlight('remove', flight, flightType);
     } else {
       setSelectedOption(value);
-      if (selectedFlights.some((selectedFlight) => selectedFlight.id === flight.id)) {
-        handleSelectedFlight('change', flight, flightType, value);
-      } else {
-        handleSelectedFlight('add', flight, flightType, value);
-      }
+      handleSelectedFlight('add', flight, flightType);
     }
   };
 
@@ -80,11 +76,6 @@ const Listing = ({ flight, flightType }: ListingProps) => {
           </label>
           <span className='text-xl font-bold'>{fullPrice}</span>
         </div>
-        {flight.seatsLeft < 10 ? (
-          <p className='text-center text-sm'>
-            Only <u>{flight.seatsLeft}</u> seats left at this price
-          </p>
-        ) : null}
       </div>
     </div>
   );

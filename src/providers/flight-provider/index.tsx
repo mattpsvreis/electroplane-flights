@@ -7,12 +7,7 @@ interface FlightContextProps {
   selectedFlights: BasicFlight[];
   totalCost: number;
   hasSelectedFlight: boolean;
-  handleSelectedFlight: (
-    type: 'add' | 'remove' | 'change',
-    flight: BasicFlight,
-    flightType: 'outbound' | 'inbound',
-    value: 'premium' | 'standard'
-  ) => void;
+  handleSelectedFlight: (type: 'add' | 'remove', flight: BasicFlight, flightType: 'outbound' | 'inbound') => void;
 }
 
 interface FlightProviderProps {
@@ -32,16 +27,9 @@ const FlightProvider: React.FC<FlightProviderProps> = ({ children }) => {
   const [hasSelectedFlight, setHasSelectedFlight] = useState<boolean>(false);
 
   const [outboundFlightSelected, setOutboundFlightSelected] = useState<BasicFlight>();
-  const [outboundFlightSelectedValue, setOutboundFlightSelectedValue] = useState<'premium' | 'standard'>();
   const [inboundFlightSelected, setInboundFlightSelected] = useState<BasicFlight>();
-  const [inboundFlightSelectedValue, setInboundFlightSelectedValue] = useState<'premium' | 'standard'>();
 
-  const handleSelectedFlight = (
-    type: 'add' | 'remove' | 'change',
-    flight: BasicFlight,
-    flightType: 'outbound' | 'inbound',
-    value: 'premium' | 'standard'
-  ) => {
+  const handleSelectedFlight = (type: 'add' | 'remove', flight: BasicFlight, flightType: 'outbound' | 'inbound') => {
     let updatedFlights: BasicFlight[] = [];
 
     if (type === 'add') {
@@ -54,16 +42,10 @@ const FlightProvider: React.FC<FlightProviderProps> = ({ children }) => {
               ...selectedFlights.filter((selectedFlight) => selectedFlight.id !== outboundFlightSelected.id),
             ];
 
-            if (outboundFlightSelectedValue === 'premium') {
-              setTotalCost((prev) => (prev -= Number((outboundFlightSelected.price * 0.95).toFixed(2))));
-            } else {
-              setTotalCost((prev) => (prev -= outboundFlightSelected.price));
-            }
+            setTotalCost((prev) => (prev -= outboundFlightSelected.price));
           } else {
             updatedFlights = selectedFlights;
           }
-
-          setOutboundFlightSelectedValue(value);
 
           setOutboundFlightSelected(flight);
         } else {
@@ -72,27 +54,17 @@ const FlightProvider: React.FC<FlightProviderProps> = ({ children }) => {
               ...selectedFlights.filter((selectedFlight) => selectedFlight.id !== inboundFlightSelected.id),
             ];
 
-            if (inboundFlightSelectedValue === 'premium') {
-              setTotalCost((prev) => (prev -= Number((inboundFlightSelected.price * 0.95).toFixed(2))));
-            } else {
-              setTotalCost((prev) => (prev -= inboundFlightSelected.price));
-            }
+            setTotalCost((prev) => (prev -= inboundFlightSelected.price));
           } else {
             updatedFlights = selectedFlights;
           }
-
-          setInboundFlightSelectedValue(value);
 
           setInboundFlightSelected(flight);
         }
 
         updatedFlights.push(flight);
 
-        if (value === 'premium') {
-          setTotalCost((prev) => (prev += Number((flight.price * 0.95).toFixed(2))));
-        } else {
-          setTotalCost((prev) => (prev += flight.price));
-        }
+        setTotalCost((prev) => (prev += flight.price));
       }
 
       setHasSelectedFlight(updatedFlights.length > 0);
@@ -109,27 +81,11 @@ const FlightProvider: React.FC<FlightProviderProps> = ({ children }) => {
         setInboundFlightSelected(undefined);
       }
 
-      if (value === 'premium') {
-        setTotalCost((prev) => (prev -= Number((flight.price * 0.95).toFixed(2))));
-      } else {
-        setTotalCost((prev) => (prev -= flight.price));
-      }
+      setTotalCost((prev) => (prev -= flight.price));
 
       setHasSelectedFlight(updatedFlights.length > 0);
 
       setSelectedFlights(updatedFlights);
-    } else {
-      if (flightType === 'outbound') {
-        setOutboundFlightSelectedValue(value);
-      } else {
-        setInboundFlightSelectedValue(value);
-      }
-
-      if (value === 'premium') {
-        setTotalCost((prev) => (prev -= flight.price - Number((flight.price * 0.95).toFixed(2))));
-      } else {
-        setTotalCost((prev) => (prev += flight.price - Number((flight.price * 0.95).toFixed(2))));
-      }
     }
   };
 
