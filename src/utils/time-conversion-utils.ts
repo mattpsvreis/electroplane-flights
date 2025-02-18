@@ -27,5 +27,5 @@ export const differenceInHoursAndMinutes = (dateStart: string, dateEnd: string) 
   const hours = Math.floor(differenceInMinutes / 60);
   const minutes = differenceInMinutes % 60;
 
-  return `${hours} ${hours === 1 ? 'h' : 'hs'} ${minutes} ${minutes === 1 ? 'min' : 'mins'}`;
+  return `${hours} hs ${minutes} mins`;
 };
